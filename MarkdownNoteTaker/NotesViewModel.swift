@@ -12,7 +12,6 @@ internal import SwiftUI
 class NotesViewModel: ObservableObject {
     @Published var notes: [Note] = [] {
         didSet {
-            // This code runs every time a note is added, deleted, or changed
             saveNotes()
         }
     }
@@ -40,28 +39,27 @@ class NotesViewModel: ObservableObject {
     }
     
     func loadNotes() {
-        // Load notes from disk
-        self.notes = [Note(id: UUID(), title: "Testing", content: "# Testing a thing")]
+        let decoder = JSONDecoder()
+        
+        do {
+            let data = try Data(contentsOf: getFileURL())
+            let items = try decoder.decode([Note].self, from: data)
+            notes = items
+        } catch {
+            print("Error: \(error)")
+        }
+        
     }
     
     func saveNotes() {
-        // Logic to encode the `notes` array to json and write to a file
-        let fileManager = FileManager.default
         let encoder = JSONEncoder()
+        let fileURL = getFileURL()
         
+        // JSONEncoder options
         encoder.outputFormatting = .prettyPrinted
         
         do {
-            // get URL for the Documents directory
-            let documentsDir = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
-            
-            // Create file URL
-            let fileURL = documentsDir.appendingPathComponent("notes.json")
-            
             let jsonData = try encoder.encode(notes)
-            
-//            let jsonString = String(data: jsonData, encoding: .utf8)
-            
             try jsonData.write(to: fileURL)
             
             print("Data saved to file : \(fileURL.path)")
@@ -69,5 +67,13 @@ class NotesViewModel: ObservableObject {
         } catch {
             print("Error : \(error)")
         }
+    }
+    
+    private func getFileURL() -> URL {
+        let fileManager = FileManager.default
+        let documentsDir = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileUrl = documentsDir.appendingPathComponent("notes.json")
+        
+        return fileUrl
     }
 }
