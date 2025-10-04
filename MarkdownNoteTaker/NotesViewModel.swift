@@ -7,7 +7,7 @@
 
 import Foundation
 internal import Combine
-internal import SwiftUI
+import SwiftUI
 
 class NotesViewModel: ObservableObject {
     @Published var notes: [Note] = [] {
@@ -21,11 +21,10 @@ class NotesViewModel: ObservableObject {
     }
     
     func createNote() -> Note.ID {
-        // Logic to add a new, empty note to the `notes` array
         let newNote = Note(id: UUID(), title: "New Note", content: "")
         notes.insert(newNote, at: 0) // Insert at the top of the list
         
-        return newNote.id // Return the ID of the new note
+        return newNote.id
     }
     
     func deleteNote(at offsets: IndexSet) {

@@ -4,12 +4,24 @@
 //
 //  Created by Patrick Jones on 10/3/25.
 //
+import MarkdownUI
+import SwiftUI
 
-internal import SwiftUI
+extension UUID: @retroactive RawRepresentable {
+    public var rawValue: String {
+        self.uuidString
+    }
+    public typealias RawValue = String
+    
+    public init?(rawValue: RawValue) {
+        self.init(uuidString: rawValue)
+    }
+}
 
 struct ContentView: View {
     @StateObject private var viewModel = NotesViewModel()
-    @State private var selectedNoteID: Note.ID?
+    @AppStorage("selectedNoteId") private var selectedNoteID: Note.ID?
+    @AppStorage("showPreview") private var showPreview: Bool = true
     
     var body: some View {
         NavigationSplitView {
@@ -33,16 +45,37 @@ struct ContentView: View {
                         Label("New Note", systemImage: "plus")
                     }
                 }
+                
+                ToolbarItem(placement: .automatic) {
+                    Button(action: {
+                        showPreview.toggle()
+                    }) {
+                        Label(
+                            showPreview ? "Hide Preview" : "Show Preview",
+                            systemImage: showPreview ? "document.circle.fill" : "document.circle")
+                    }
+                }
             }
         } detail: {
             if let selectedNoteID, let noteIndex = viewModel.notes.firstIndex(where: { $0.id == selectedNoteID }) {
                 // Create a binding to the note's content
                 let noteBinding = $viewModel.notes[noteIndex]
-                
-                VStack {
-                    TextField("Title", text: noteBinding.title)
-                    TextEditor(text: noteBinding.content)
+                HStack(alignment: .top) {
+                    // editor
+                    VStack {
+                        TextField("Title", text: noteBinding.title)
+                        TextEditor(text: noteBinding.content)
+                    }
+                    
+                    // markdown preview
+                    if showPreview {
+                        Markdown(noteBinding.content.wrappedValue)
+                            .markdownTheme(.gitHub)
+                            .padding()
+                            .frame(minWidth: 200)
+                    }
                 }
+                
             } else {
                 Text("Select a note to begin.")
             }
