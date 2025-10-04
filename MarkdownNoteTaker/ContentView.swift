@@ -48,7 +48,9 @@ struct ContentView: View {
                 
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
-                        showPreview.toggle()
+                        withAnimation {
+                            showPreview.toggle()
+                        }
                     }) {
                         Label(
                             showPreview ? "Hide Preview" : "Show Preview",
@@ -63,18 +65,22 @@ struct ContentView: View {
                 HStack(alignment: .top) {
                     // editor
                     VStack {
-                        TextField("Title", text: noteBinding.title)
                         TextEditor(text: noteBinding.content)
+                            .navigationTitle(noteBinding.title)
                     }
                     
                     // markdown preview
                     if showPreview {
-                        Markdown(noteBinding.content.wrappedValue)
-                            .markdownTheme(.gitHub)
-                            .padding()
-                            .frame(minWidth: 200)
+                        ScrollView {
+                            Markdown(noteBinding.content.wrappedValue)
+                                .markdownTheme(.gitHub)
+                                .padding()
+                                .frame(minWidth: 200)
+                        }.transition(.slide)
+                        
                     }
                 }
+                .animation(.default, value: showPreview)
                 
             } else {
                 Text("Select a note to begin.")
@@ -82,3 +88,7 @@ struct ContentView: View {
         }
     }
 }
+
+//#Preview {
+//    ContentView()
+//}

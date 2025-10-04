@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CD3827F82E90D31F006DF59B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = CD3827F72E90D31F006DF59B /* MarkdownUI */; };
+		CD3827FC2E90EDB5006DF59B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		CD3827AC2E90A2E3006DF59B /* MarkdownNoteTaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkdownNoteTaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3827BE2E90A2E6006DF59B /* MarkdownNoteTakerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkdownNoteTakerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3827C82E90A2E6006DF59B /* MarkdownNoteTakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkdownNoteTakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -84,6 +86,7 @@
 				CD3827C12E90A2E6006DF59B /* MarkdownNoteTakerTests */,
 				CD3827CB2E90A2E6006DF59B /* MarkdownNoteTakerUITests */,
 				CD3827AD2E90A2E3006DF59B /* Products */,
+				CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */,
 			);
 			sourceTree = "<group>";
 		};
@@ -198,6 +201,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = CD3827A32E90A2E3006DF59B;
 			minimizedProjectReferenceProxies = 1;
@@ -221,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD3827FC2E90EDB5006DF59B /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +342,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -393,6 +399,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
