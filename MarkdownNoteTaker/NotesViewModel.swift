@@ -46,5 +46,28 @@ class NotesViewModel: ObservableObject {
     
     func saveNotes() {
         // Logic to encode the `notes` array to json and write to a file
+        let fileManager = FileManager.default
+        let encoder = JSONEncoder()
+        
+        encoder.outputFormatting = .prettyPrinted
+        
+        do {
+            // get URL for the Documents directory
+            let documentsDir = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+            
+            // Create file URL
+            let fileURL = documentsDir.appendingPathComponent("notes.json")
+            
+            let jsonData = try encoder.encode(notes)
+            
+//            let jsonString = String(data: jsonData, encoding: .utf8)
+            
+            try jsonData.write(to: fileURL)
+            
+            print("Data saved to file : \(fileURL.path)")
+            
+        } catch {
+            print("Error : \(error)")
+        }
     }
 }
