@@ -5,7 +5,7 @@
 //  Created by Patrick Jones on 10/3/25.
 //
 
-import SwiftUI
+internal import SwiftUI
 import CoreData
 
 @main
