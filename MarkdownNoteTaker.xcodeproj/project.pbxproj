@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CD3827F82E90D31F006DF59B /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = CD3827F72E90D31F006DF59B /* MarkdownUI */; };
 		CD3827FC2E90EDB5006DF59B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */; };
+		CD3827FF2E90F8D8006DF59B /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = CD3827FD2E90F8D1006DF59B /* ReadMe.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		CD3827BE2E90A2E6006DF59B /* MarkdownNoteTakerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkdownNoteTakerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3827C82E90A2E6006DF59B /* MarkdownNoteTakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarkdownNoteTakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		CD3827FD2E90F8D1006DF59B /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -87,6 +89,7 @@
 				CD3827CB2E90A2E6006DF59B /* MarkdownNoteTakerUITests */,
 				CD3827AD2E90A2E3006DF59B /* Products */,
 				CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */,
+				CD3827FD2E90F8D1006DF59B /* ReadMe.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD3827FC2E90EDB5006DF59B /* Localizable.xcstrings in Resources */,
+				CD3827FF2E90F8D8006DF59B /* ReadMe.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +419,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -445,6 +450,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
