@@ -66,6 +66,8 @@ import Foundation
 //import Foundation
 //
 class JSONStorage: NoteStorage {
+    
+            
     private let fileManager = FileManager.default
     private var fileURL: URL
     
@@ -99,6 +101,10 @@ class JSONStorage: NoteStorage {
     }
     
     func save(note: Note) throws {
+        // unimplemented
+    }
+    
+    func rename(title: String, note: Note) throws {
         // unimplemented
     }
     

@@ -11,6 +11,7 @@ protocol NoteStorage {
     func loadNotes() -> [Note]
     func save(note: Note) throws
     func save(notes: [Note]) throws
+    func rename(title: String, note: Note) throws
     func createNote(title: String) -> Note
     func delete(note: Note) throws
 }

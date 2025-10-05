@@ -43,6 +43,14 @@ class NotesViewModel: ObservableObject {
         notes.remove(at: noteIndex)
     }
     
+    func renameNote(title: String, with id: UUID) {
+        var note = notes.filter({$0.id == id}).first!
+        print("Renaming Note in NotesViewModel")
+//        guard let noteIndex = notes.firstIndex(where: { $0.id == id }) else { return }
+//        let noteToRename = notes[noteIndex]
+        try? storage.rename(title: title, note: note)
+        note.title = title
+    }
     func saveNotes() {
         do {
             try storage.save(notes: notes)

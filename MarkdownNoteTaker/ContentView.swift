@@ -24,7 +24,8 @@ struct ContentView: View {
     
     @AppStorage("selectedNoteId") private var selectedNoteID: Note.ID?
     @AppStorage("showPreview") private var showPreview: Bool = true
-    @State private var showAlert = false
+    @State private var showCreateAlert = false
+    @State private var showRenameAlert = false
     @State var newNoteTitle = ""
 
     init() {
@@ -50,11 +51,11 @@ struct ContentView: View {
             }.toolbar {
                 ToolbarItem {
                     Button(action: {
-                        showAlert = true
+                        showCreateAlert = true
                     }) {
                         Label("New Note", systemImage: "plus")
                     }
-                    .alert("New Note", isPresented: $showAlert) {
+                    .alert("New Note", isPresented: $showCreateAlert) {
                         TextField("Note Title", text: $newNoteTitle)
                         Button("Create") {
                             self.selectedNoteID = self.viewModel.createNote(title: newNoteTitle)
@@ -73,6 +74,20 @@ struct ContentView: View {
                             self.showPreview ? "Hide Preview" : "Show Preview",
                             systemImage: self.showPreview ? "document.circle.fill" : "document.circle"
                         )
+                    }
+                }
+                
+                ToolbarItem() {
+                    Button("Rename", action: {
+                        print("Rename button pressed!")
+                        showRenameAlert = true
+                    })
+                    .alert("Rename Note", isPresented: $showRenameAlert) {
+                        TextField("Note Title", text: $newNoteTitle)
+                        Button("Rename") {
+                            self.viewModel.renameNote(title: newNoteTitle, with: selectedNoteID.unsafelyUnwrapped)
+                        }
+                        Button("Cancel", role: .cancel) { }
                     }
                 }
             }

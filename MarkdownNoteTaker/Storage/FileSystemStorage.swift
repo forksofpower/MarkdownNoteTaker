@@ -52,6 +52,16 @@ class FileSystemStorage: NoteStorage {
         return newNote
     }
     
+    func rename(title: String, note: Note) throws {
+        let oldFileUrl = getFileURL(title: note.title)
+        let newFileUrl = getFileURL(title: title)
+        
+        if fileManager.fileExists(atPath: oldFileUrl.path) {
+            try? fileManager.moveItem(at: oldFileUrl, to: newFileUrl)
+            print("File renamed:\n\tfrom: \(note.title)\n\tto: \(title)")
+        }
+    }
+    
     func save(note: Note) throws {
         let fileURL = getFileURL(title: note.title)
         try note.content.write(to: fileURL, atomically: true, encoding: .utf8)
