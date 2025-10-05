@@ -7,11 +7,20 @@
 
 import Testing
 @testable import MarkdownNoteTaker
+import Foundation
 
 struct MarkdownNoteTakerTests {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    @Test func testCreateNote() async throws {
+        let viewModel = NotesViewModel()
+        
+        let initialCount = viewModel.notes.count
+        
+        let newNoteID = viewModel.createNote()
+        
+        #expect(viewModel.notes.count == initialCount + 1)
+        #expect(viewModel.notes.first?.id == newNoteID)
+        #expect(viewModel.notes.first?.title == "New Note")
     }
 
 }

@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Cancel" : {
+
+    },
+    "Create" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "es" : {
@@ -30,6 +36,9 @@
           }
         }
       }
+    },
+    "Note Title" : {
+
     },
     "Select a note to begin." : {
       "localizations" : {

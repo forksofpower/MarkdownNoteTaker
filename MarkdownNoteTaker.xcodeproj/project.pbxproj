@@ -48,11 +48,6 @@
 			path = MarkdownNoteTakerTests;
 			sourceTree = "<group>";
 		};
-		CD3827CB2E90A2E6006DF59B /* MarkdownNoteTakerUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MarkdownNoteTakerUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +81,6 @@
 			children = (
 				CD3827AE2E90A2E3006DF59B /* MarkdownNoteTaker */,
 				CD3827C12E90A2E6006DF59B /* MarkdownNoteTakerTests */,
-				CD3827CB2E90A2E6006DF59B /* MarkdownNoteTakerUITests */,
 				CD3827AD2E90A2E3006DF59B /* Products */,
 				CD3827FB2E90EDB5006DF59B /* Localizable.xcstrings */,
 				CD3827FD2E90F8D1006DF59B /* ReadMe.md */,
@@ -164,9 +158,6 @@
 			);
 			dependencies = (
 				CD3827CA2E90A2E6006DF59B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				CD3827CB2E90A2E6006DF59B /* MarkdownNoteTakerUITests */,
 			);
 			name = MarkdownNoteTakerUITests;
 			packageProductDependencies = (
