@@ -11,6 +11,7 @@ extension UUID: @retroactive RawRepresentable {
     public var rawValue: String {
         self.uuidString
     }
+
     public typealias RawValue = String
     
     public init?(rawValue: RawValue) {
@@ -19,49 +20,66 @@ extension UUID: @retroactive RawRepresentable {
 }
 
 struct ContentView: View {
-    @StateObject private var viewModel = NotesViewModel()
+    @StateObject private var viewModel: NotesViewModel
+    
     @AppStorage("selectedNoteId") private var selectedNoteID: Note.ID?
     @AppStorage("showPreview") private var showPreview: Bool = true
+    @State private var showAlert = false
+    @State var newNoteTitle = ""
+
+    init() {
+//        let storage = JSONStorage()
+        let storage = FileSystemStorage() // uncomment for markdown file based storage
+        _viewModel = StateObject(wrappedValue: NotesViewModel(storage: storage))
+    }
     
     var body: some View {
         NavigationSplitView {
-            List(selection: $selectedNoteID) {
-                ForEach(viewModel.notes) { note in
+            List(selection: self.$selectedNoteID) {
+                ForEach(self.viewModel.notes) { note in
                     Text(note.title)
                         .tag(note.id)
                         .contextMenu {
                             Button(role: .destructive, action: {
-                                viewModel.deleteNote(with: note.id)
+                                self.viewModel.deleteNote(with: note.id)
                             }) {
                                 Label("Delete", systemImage: "trash")
                             }
                         }
-                }.onDelete(perform: viewModel.deleteNote)
+                }.onDelete(perform: self.viewModel.deleteNote)
             }.toolbar {
                 ToolbarItem {
                     Button(action: {
-                        selectedNoteID = viewModel.createNote()
+                        showAlert = true
                     }) {
                         Label("New Note", systemImage: "plus")
+                    }
+                    .alert("New Note", isPresented: $showAlert) {
+                        TextField("Note Title", text: $newNoteTitle)
+                        Button("Create") {
+                            self.selectedNoteID = self.viewModel.createNote(title: newNoteTitle)
+                        }
+                        Button("Cancel", role: .cancel) { }
                     }
                 }
                 
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
                         withAnimation {
-                            showPreview.toggle()
+                            self.showPreview.toggle()
                         }
                     }) {
                         Label(
-                            showPreview ? "Hide Preview" : "Show Preview",
-                            systemImage: showPreview ? "document.circle.fill" : "document.circle")
+                            self.showPreview ? "Hide Preview" : "Show Preview",
+                            systemImage: self.showPreview ? "document.circle.fill" : "document.circle"
+                        )
                     }
                 }
             }
         } detail: {
             if let selectedNoteID, let noteIndex = viewModel.notes.firstIndex(where: { $0.id == selectedNoteID }) {
                 // Create a binding to the note's content
-                let noteBinding = $viewModel.notes[noteIndex]
+                let noteBinding = self.$viewModel.notes[noteIndex]
                 HStack(alignment: .top) {
                     // editor
                     VStack {
@@ -70,17 +88,16 @@ struct ContentView: View {
                     }
                     
                     // markdown preview
-                    if showPreview {
+                    if self.showPreview {
                         ScrollView {
                             Markdown(noteBinding.content.wrappedValue)
                                 .markdownTheme(.gitHub)
                                 .padding()
                                 .frame(minWidth: 200)
                         }.transition(.slide)
-                        
-                    }
+                     }
                 }
-                .animation(.default, value: showPreview)
+                .animation(.default, value: self.showPreview)
                 
             } else {
                 Text("Select a note to begin.")

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-internal import Combine
+import Combine
 import SwiftUI
 
 class NotesViewModel: ObservableObject {
@@ -15,64 +15,39 @@ class NotesViewModel: ObservableObject {
             saveNotes()
         }
     }
+    private let storage: NoteStorage
     
-    init() {
-        loadNotes()
+    init(storage: NoteStorage) {
+        self.storage = storage
+        self.notes = storage.loadNotes()
     }
     
-    func createNote() -> Note.ID {
-        let newNote = Note(id: UUID(), title: "New Note", content: "")
+    @discardableResult
+    func createNote(title: String = "New Note") -> Note.ID {
+        let newNote = storage.createNote(title: title)
         notes.insert(newNote, at: 0) // Insert at the top of the list
         
         return newNote.id
     }
     
     func deleteNote(at offsets: IndexSet) {
+        let noteToDelete = notes[offsets.first!]
+        try? storage.delete(note: noteToDelete)
         notes.remove(atOffsets: offsets)
     }
     
     func deleteNote(with id: UUID) {
-        if let index = notes.firstIndex(where: { $0.id == id }) {
-            notes.remove(at: index)
-        }
-    }
-    
-    func loadNotes() {
-        let decoder = JSONDecoder()
-        
-        do {
-            let data = try Data(contentsOf: getFileURL())
-            let items = try decoder.decode([Note].self, from: data)
-            notes = items
-        } catch {
-            print("Error: \(error)")
-        }
-        
+        guard let noteIndex = notes.firstIndex(where: { $0.id == id }) else { return }
+        let noteToDelete = notes[noteIndex]
+        try? storage.delete(note: noteToDelete)
+        notes.remove(at: noteIndex)
     }
     
     func saveNotes() {
-        let encoder = JSONEncoder()
-        let fileURL = getFileURL()
-        
-        // JSONEncoder options
-        encoder.outputFormatting = .prettyPrinted
-        
         do {
-            let jsonData = try encoder.encode(notes)
-            try jsonData.write(to: fileURL)
-            
-            print("Data saved to file : \(fileURL.path)")
-            
+            try storage.save(notes: notes)
         } catch {
-            print("Error : \(error)")
+            print("Error saving note: \(error)")
         }
-    }
-    
-    private func getFileURL() -> URL {
-        let fileManager = FileManager.default
-        let documentsDir = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileUrl = documentsDir.appendingPathComponent("notes.json")
-        
-        return fileUrl
     }
 }
